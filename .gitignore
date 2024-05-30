@@ -1,0 +1,7 @@
+/venv
+/uploads
+
+.env
+.env.local
+
+*.zip

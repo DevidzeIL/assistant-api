@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
 import os
 from openai import OpenAI
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 import tempfile
 import time
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -17,6 +18,7 @@ assistant_id = os.getenv('ASSISTANT_ID')
 client = OpenAI(api_key=api_key)
 
 @app.route('/ask', methods=['POST'])
+@cross_origin(origins="http://81.94.159.202:3000", methods=['POST'], allow_headers=["Content-Type"])
 def ask():
     user_input = request.form.get('question', '')
     image_file = request.files.get('image', None)
@@ -64,4 +66,4 @@ def ask():
     return jsonify({"response": info_text})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
